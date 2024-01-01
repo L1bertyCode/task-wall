@@ -1,4 +1,4 @@
-import "./app/styles/index.css";
+import { App } from "./app/App";
 import { createRoot } from "react-dom/client";
 const container = document.getElementById("root");
 if (!container) {
@@ -7,4 +7,4 @@ if (!container) {
   );
 }
 const root = createRoot(container);
-root.render(<div>123</div>);
+root.render(<App />);
