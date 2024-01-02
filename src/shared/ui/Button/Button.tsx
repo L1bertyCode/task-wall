@@ -6,18 +6,20 @@ import {
 import cn from "classnames";
 
 import s from "./Button.module.scss";
-type ButtonColortype =
-  | "clear"
-  | "clear-inverted"
-  | "outline"
-  | "outline-inverted"
-  | "filled"
-  | "filled-inverted";
+type ButtonVariant = "clear" | "outline" | "filled";
+type ButtonColorType =
+  | "primary"
+  | "inverted"
+  | "cancel"
+  | "save"
+  | "hint";
 interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   onClick: () => void;
   className?: string;
+  variant?: ButtonVariant;
+  colorType?: ButtonColorType;
 }
 
 export const Button = memo((props: ButtonProps) => {

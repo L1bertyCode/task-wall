@@ -17,6 +17,7 @@ export default (env: BuildEnv): Configuration => {
       "public",
       "favicon.ico"
     ),
+    src: path.resolve(__dirname, "src"),
   };
 
   const config = buildWebpackConfig({
