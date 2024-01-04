@@ -5,12 +5,13 @@ import s from "./TodoItem.module.scss";
 interface TodoItemProps {
   className?: string;
   children: ReactNode;
+  key: string | number;
 }
 
 export const TodoItem = memo((props: TodoItemProps) => {
-  const { className, children } = props;
+  const { className, children, key } = props;
   return (
-    <li className={cn(s.todoItem, className)}>
+    <li key={key} className={cn(s.todoItem, className)}>
       {children}
     </li>
   );
