@@ -1,8 +1,7 @@
-import { memo, useState } from "react";
+import { ChangeEvent, memo, useState } from "react";
 import cn from "classnames";
 
 import s from "./TodoList.module.scss";
-import { TodoItem } from "../TodoItem/TodoItem";
 import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
 import { FilterValuesType } from "@/app/App";
@@ -14,10 +13,12 @@ interface TaskItemProps {
 interface TodoListProps {
   className?: string;
   title?: string;
+  filter?: FilterValuesType;
   tasksList?: TaskItemProps[];
   removeItem: (id: string) => void;
   addTaskHandler: (title: string) => void;
   changeFilter: (filter: FilterValuesType) => void;
+  changeStatus: (id: string, isDone: boolean) => void;
 }
 
 export const TodoList = memo((props: TodoListProps) => {
@@ -28,37 +29,62 @@ export const TodoList = memo((props: TodoListProps) => {
     removeItem,
     addTaskHandler,
     changeFilter,
+    changeStatus,
+    filter,
   } = props;
-  const [input, setInput] = useState("");
+  const [inputValue, setInputValue] = useState<string>("");
+  const [inputError, setInputError] = useState<string>("");
   const addTask = () => {
-    addTaskHandler(input);
-    setInput("");
+    if (inputValue.trim()) {
+      addTaskHandler(inputValue.trim());
+      setInputValue("");
+    } else {
+      setInputError("Field is required");
+    }
   };
   const onAllClickHandler = () => changeFilter("all");
-  const onActiveClickHandler = () =>
-  changeFilter("active");
+  const onActiveClickHandler = () => changeFilter("active");
   const onComplitedClickHandler = () =>
-  changeFilter("complited");
-
+    changeFilter("complited");
+  const setErrorFalse = () => setInputError("");
   return (
     <>
       <ul className={cn(s.list, className)}>
         {title && <h3>{title}</h3>}
         <Input
-          value={input}
-          setValue={setInput}
+          value={inputValue}
+          error={inputError}
+          setErrorFalse={setErrorFalse}
+          setValue={setInputValue}
           onKeyDown={addTask}
+          ChangeBtn={
+            <Button onClick={addTask}>add task</Button>
+          }
         />
-        <Button onClick={addTask}>add task</Button>
+
         {tasksList &&
           tasksList?.map((taskItem) => {
             const onRemoveItem = () =>
               removeItem(taskItem.id);
+            const onChangeHandler = (
+              taskId: string,
+              e: ChangeEvent<HTMLInputElement>
+            ) => {
+              changeStatus(taskId, e.currentTarget.checked);
+            };
             return (
-              <li key={taskItem.id}>
+              <li
+                className={cn({
+                  [s.isDone]: taskItem.isDone,
+                })}
+                key={taskItem.id}
+              >
                 <input
                   type="checkbox"
                   checked={taskItem.isDone}
+                  onChange={(e) =>
+                    onChangeHandler(taskItem.id, e)
+                  }
                 />
 
                 <span>{taskItem.title}</span>
@@ -68,11 +94,22 @@ export const TodoList = memo((props: TodoListProps) => {
           })}
       </ul>
       <div className={"btns"}>
-        <Button onClick={onAllClickHandler}>All</Button>
-        <Button onClick={onActiveClickHandler}>
+        <Button
+          active={filter === "all"}
+          onClick={onAllClickHandler}
+        >
+          All
+        </Button>
+        <Button
+          active={filter === "active"}
+          onClick={onActiveClickHandler}
+        >
           Active
         </Button>
-        <Button onClick={onComplitedClickHandler}>
+        <Button
+          active={filter === "complited"}
+          onClick={onComplitedClickHandler}
+        >
           Complited
         </Button>
       </div>

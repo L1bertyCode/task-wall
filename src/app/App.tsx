@@ -15,13 +15,11 @@ export const App = () => {
     { id: v1(), title: "HTML", isDone: true },
     { id: v1(), title: "Redux", isDone: false },
   ]);
-  console.log("tasks tasks tasks", tasks);
 
   const [filter, setFilter] =
     useState<FilterValuesType>("all");
 
   function removeItem(id: string) {
-    console.log("id", id);
     setTasks(
       tasks?.filter((taskItem) => taskItem.id !== id)
     );
@@ -49,14 +47,25 @@ export const App = () => {
   const changeFilter = (filter: FilterValuesType) => {
     setFilter(filter);
   };
+  const changeStatus = (id: string, isDone: boolean) => {
+    const newTaksList = tasks.map((taskItem) => {
+      if (taskItem.id === id) {
+        taskItem.isDone = isDone;
+      }
+      return taskItem;
+    });
+    setTasks([...newTaksList]);
+  };
   return (
     <div className={cn("app", "app_blue_theme")}>
       <TodoList
+        filter={filter}
         title="Langauge"
         tasksList={filtredTasks}
         removeItem={removeItem}
         addTaskHandler={addTaskHandler}
         changeFilter={changeFilter}
+        changeStatus={changeStatus}
       />
     </div>
   );

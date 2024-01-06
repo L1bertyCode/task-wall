@@ -2,8 +2,8 @@ import {
   ChangeEvent,
   InputHTMLAttributes,
   KeyboardEvent,
+  ReactNode,
   memo,
-  useState,
 } from "react";
 import cn from "classnames";
 
@@ -15,8 +15,11 @@ interface InputProps
   type?: string;
   label?: string;
   value: string;
+  error?: string;
   setValue: (value: string) => void;
   onKeyDown: () => void;
+  ChangeBtn?: ReactNode;
+  setErrorFalse?: () => void;
 }
 
 export const Input = memo((props: InputProps) => {
@@ -25,10 +28,12 @@ export const Input = memo((props: InputProps) => {
     type = "text",
     label,
     value,
+    error,
+    setErrorFalse,
     setValue,
     onKeyDown,
+    ChangeBtn,
   } = props;
-  console.log(value);
   const onChangeHandler = (
     e: ChangeEvent<HTMLInputElement>
   ) => {
@@ -37,20 +42,32 @@ export const Input = memo((props: InputProps) => {
   const onKyeDownhandler = (
     e: KeyboardEvent<HTMLInputElement>
   ) => {
-    if (e.key === "Enter") {
+    if (type === "text" && e.key === "Enter") {
       onKeyDown();
     }
   };
+
   return (
     <>
       {label && <label className={s.label}>{label}</label>}
       <input
         value={value}
         onChange={onChangeHandler}
-        onKeyDown={(e) => onKyeDownhandler}
+        onKeyDown={onKyeDownhandler}
+        onClick={setErrorFalse}
         type={type}
-        className={cn(s.input, className)}
+        className={cn(
+          s.input,
+          { [s.error]: error },
+          className
+        )}
       />
+      {ChangeBtn}
+      {error && (
+        <div className={s.errorMessage}>
+          Field is required
+        </div>
+      )}
     </>
   );
 });

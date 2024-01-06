@@ -20,14 +20,19 @@ interface ButtonProps
   className?: string;
   variant?: ButtonVariant;
   colorType?: ButtonColorType;
+  active?: boolean;
 }
 
 export const Button = memo((props: ButtonProps) => {
-  const { className, children, onClick } = props;
+  const { className, children, onClick, active } = props;
   return (
     <button
       onClick={onClick}
-      className={cn(s.button, className)}
+      className={cn(
+        s.button,
+        { [s.active]: active },
+        className
+      )}
     >
       {children}
     </button>
