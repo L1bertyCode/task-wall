@@ -1,27 +1,39 @@
 import { ChangeEvent, memo, useState } from "react";
 import cn from "classnames";
 
-import s from "./TodoList.module.scss";
+import s from "./TaskList.module.scss";
 import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
 import { FilterValuesType } from "@/app/App";
-interface TaskItemProps {
+export interface TaskItemProps {
   id: string;
   title: string;
   isDone: boolean;
 }
-interface TodoListProps {
+interface TaskListProps {
   className?: string;
   title?: string;
   filter?: FilterValuesType;
   tasksList?: TaskItemProps[];
-  removeItem: (id: string) => void;
-  addTaskHandler: (title: string) => void;
-  changeFilter: (filter: FilterValuesType) => void;
-  changeStatus: (id: string, isDone: boolean) => void;
+  taskListId: string;
+  removeItem: (id: string, taskListId: string) => void;
+  addTaskHandler: (
+    title: string,
+    taskListId: string
+  ) => void;
+  changeFilter: (
+    filter: FilterValuesType,
+    taskListId: string
+  ) => void;
+  changeStatus: (
+    id: string,
+    isDone: boolean,
+    taskListId: string
+  ) => void;
+  removeTaskList: (taskLitsId: string) => void;
 }
 
-export const TodoList = memo((props: TodoListProps) => {
+export const TaskList = memo((props: TaskListProps) => {
   const {
     className,
     title,
@@ -31,24 +43,31 @@ export const TodoList = memo((props: TodoListProps) => {
     changeFilter,
     changeStatus,
     filter,
+    taskListId,
+    removeTaskList,
   } = props;
   const [inputValue, setInputValue] = useState<string>("");
   const [inputError, setInputError] = useState<string>("");
   const addTask = () => {
     if (inputValue.trim()) {
-      addTaskHandler(inputValue.trim());
+      addTaskHandler(inputValue.trim(), taskListId);
       setInputValue("");
     } else {
       setInputError("Field is required");
     }
   };
-  const onAllClickHandler = () => changeFilter("all");
-  const onActiveClickHandler = () => changeFilter("active");
+  const onAllClickHandler = () =>
+    changeFilter("all", taskListId);
+  const onActiveClickHandler = () =>
+    changeFilter("active", taskListId);
   const onComplitedClickHandler = () =>
-    changeFilter("complited");
+    changeFilter("complited", taskListId);
   const setErrorFalse = () => setInputError("");
+  const removeTaskListHandler = () => {
+    removeTaskList(taskListId);
+  };
   return (
-    <>
+    <div className={s.taksList}>
       <ul className={cn(s.list, className)}>
         {title && <h3>{title}</h3>}
         <Input
@@ -65,12 +84,16 @@ export const TodoList = memo((props: TodoListProps) => {
         {tasksList &&
           tasksList?.map((taskItem) => {
             const onRemoveItem = () =>
-              removeItem(taskItem.id);
+              removeItem(taskItem.id, taskListId);
             const onChangeHandler = (
               taskId: string,
               e: ChangeEvent<HTMLInputElement>
             ) => {
-              changeStatus(taskId, e.currentTarget.checked);
+              changeStatus(
+                taskId,
+                e.currentTarget.checked,
+                taskListId
+              );
             };
             return (
               <li
@@ -113,6 +136,9 @@ export const TodoList = memo((props: TodoListProps) => {
           Complited
         </Button>
       </div>
-    </>
+      <Button onClick={removeTaskListHandler}>
+        Remove task List
+      </Button>
+    </div>
   );
 });

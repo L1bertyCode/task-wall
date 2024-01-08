@@ -1,6 +1,7 @@
 .button {
   color: var(--inverted-text-color);
   border: none;
+  cursor: pointer;
 }
 .active {
   background-color: var(--accent-color);
