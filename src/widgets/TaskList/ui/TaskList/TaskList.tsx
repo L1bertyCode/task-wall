@@ -5,7 +5,9 @@ import s from "./TaskList.module.scss";
 import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
 import { FilterValuesType } from "@/app/App";
-export interface TaskItemProps {
+import { FormAddItem } from "@/features/AddTaskItem";
+
+export interface TaskItem {
   id: string;
   title: string;
   isDone: boolean;
@@ -14,7 +16,7 @@ interface TaskListProps {
   className?: string;
   title?: string;
   filter?: FilterValuesType;
-  tasksList?: TaskItemProps[];
+  tasksList?: TaskItem[];
   taskListId: string;
   removeItem: (id: string, taskListId: string) => void;
   addTaskHandler: (
@@ -46,41 +48,24 @@ export const TaskList = memo((props: TaskListProps) => {
     taskListId,
     removeTaskList,
   } = props;
-  const [inputValue, setInputValue] = useState<string>("");
-  const [inputError, setInputError] = useState<string>("");
-  const addTask = () => {
-    if (inputValue.trim()) {
-      addTaskHandler(inputValue.trim(), taskListId);
-      setInputValue("");
-    } else {
-      setInputError("Field is required");
-    }
-  };
+
   const onAllClickHandler = () =>
     changeFilter("all", taskListId);
   const onActiveClickHandler = () =>
     changeFilter("active", taskListId);
   const onComplitedClickHandler = () =>
     changeFilter("complited", taskListId);
-  const setErrorFalse = () => setInputError("");
   const removeTaskListHandler = () => {
     removeTaskList(taskListId);
+  };
+  const addTask = (title: string) => {
+    addTaskHandler(title, taskListId);
   };
   return (
     <div className={s.taksList}>
       <ul className={cn(s.list, className)}>
         {title && <h3>{title}</h3>}
-        <Input
-          value={inputValue}
-          error={inputError}
-          setErrorFalse={setErrorFalse}
-          setValue={setInputValue}
-          onKeyDown={addTask}
-          ChangeBtn={
-            <Button onClick={addTask}>add task</Button>
-          }
-        />
-
+        <FormAddItem addItem={addTask} />
         {tasksList &&
           tasksList?.map((taskItem) => {
             const onRemoveItem = () =>

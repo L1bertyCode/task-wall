@@ -37,9 +37,12 @@ export const Input = memo((props: InputProps) => {
   const onChangeHandler = (
     e: ChangeEvent<HTMLInputElement>
   ) => {
+    if (error) {
+      setErrorFalse?.();
+    }
     setValue(e.target.value);
   };
-  const onKyeDownhandler = (
+  const onKyeDownHandler = (
     e: KeyboardEvent<HTMLInputElement>
   ) => {
     if (type === "text" && e.key === "Enter") {
@@ -53,7 +56,7 @@ export const Input = memo((props: InputProps) => {
       <input
         value={value}
         onChange={onChangeHandler}
-        onKeyDown={onKyeDownhandler}
+        onKeyDown={onKyeDownHandler}
         onClick={setErrorFalse}
         type={type}
         className={cn(

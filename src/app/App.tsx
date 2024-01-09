@@ -4,7 +4,11 @@ import { TaskList } from "@/widgets/TaskList";
 import { useState } from "react";
 
 import { v1 } from "uuid";
-
+import { FormAddItem } from "@/features/AddTaskItem";
+import { TaskItem } from "@/widgets/TaskList/ui/TaskList/TaskList";
+export type TaskObjectType = {
+  [key: string]: TaskItem[];
+};
 export type FilterValuesType =
   | "all"
   | "active"
@@ -20,7 +24,7 @@ export const App = () => {
   const [
     objetcWithSomeTaskList,
     setObjetcWithSomeTaskList,
-  ] = useState({
+  ] = useState<TaskObjectType>({
     [taskListId1]: [
       { id: v1(), title: "CSS", isDone: true },
       { id: v1(), title: "JS", isDone: false },
@@ -110,35 +114,59 @@ export const App = () => {
     setTaskListArray([...filtredTaslList]);
     delete objetcWithSomeTaskList[taskListId];
   };
+  const addTaskList = (title: string) => {
+    const newTaskList: TaskListArrayType = {
+      id: v1(),
+      filter: "all",
+      title: title,
+    };
+    setTaskListArray([...taskListArray, newTaskList]);
+    setObjetcWithSomeTaskList({
+      ...objetcWithSomeTaskList,
+      [newTaskList.id]: [
+        { id: v1(), title: "Bread", isDone: true },
+        { id: v1(), title: "milk", isDone: false },
+      ],
+    });
+  };
   return (
     <div className={cn("app", "app_blue_theme")}>
-      {taskListArray.map((taskListArrayItem) => {
-        let filtredTasks =
-          objetcWithSomeTaskList[taskListArrayItem.id];
-        if (taskListArrayItem.filter === "complited") {
-          filtredTasks = objetcWithSomeTaskList[
-            taskListArrayItem.id
-          ].filter((taskItem) => taskItem.isDone === true);
-        } else if (taskListArrayItem.filter === "active") {
-          filtredTasks = objetcWithSomeTaskList[
-            taskListArrayItem.id
-          ].filter((taskItem) => taskItem.isDone === false);
-        }
-        return (
-          <TaskList
-            taskListId={taskListArrayItem.id}
-            key={taskListArrayItem.id}
-            filter={taskListArrayItem.filter}
-            title={taskListArrayItem.title}
-            tasksList={filtredTasks}
-            removeItem={removeItem}
-            addTaskHandler={addTaskHandler}
-            changeFilter={changeFilter}
-            changeStatus={changeStatus}
-            removeTaskList={removeTaskList}
-          />
-        );
-      })}
+      <FormAddItem addItem={addTaskList} />
+      <div className={"taskListBlock"}>
+        {taskListArray.map((taskListArrayItem) => {
+          let filtredTasks =
+            objetcWithSomeTaskList[taskListArrayItem.id];
+          if (taskListArrayItem.filter === "complited") {
+            filtredTasks = objetcWithSomeTaskList[
+              taskListArrayItem.id
+            ].filter(
+              (taskItem) => taskItem.isDone === true
+            );
+          } else if (
+            taskListArrayItem.filter === "active"
+          ) {
+            filtredTasks = objetcWithSomeTaskList[
+              taskListArrayItem.id
+            ].filter(
+              (taskItem) => taskItem.isDone === false
+            );
+          }
+          return (
+            <TaskList
+              taskListId={taskListArrayItem.id}
+              key={taskListArrayItem.id}
+              filter={taskListArrayItem.filter}
+              title={taskListArrayItem.title}
+              tasksList={filtredTasks}
+              removeItem={removeItem}
+              addTaskHandler={addTaskHandler}
+              changeFilter={changeFilter}
+              changeStatus={changeStatus}
+              removeTaskList={removeTaskList}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
