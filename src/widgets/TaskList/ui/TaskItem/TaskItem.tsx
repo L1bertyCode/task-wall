@@ -5,7 +5,7 @@ import s from "./TaskItem.module.scss";
 interface TaskItemProps {
   className?: string;
   children: ReactNode;
-  key: string | number;
+  key: string;
 }
 
 export const TaskItem = memo((props: TaskItemProps) => {

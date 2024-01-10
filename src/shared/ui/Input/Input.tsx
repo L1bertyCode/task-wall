@@ -8,18 +8,21 @@ import {
 import cn from "classnames";
 
 import s from "./Input.module.scss";
-
-interface InputProps
-  extends InputHTMLAttributes<HTMLInputElement> {
+type HtmlInputType = Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  "onChange" | "value" | "type"
+>;
+interface InputProps extends HtmlInputType {
   className?: string;
   type?: string;
   label?: string;
-  value: string;
+  value?: string;
   error?: string;
-  setValue: (value: string) => void;
-  onKeyDown: () => void;
-  ChangeBtn?: ReactNode;
+  setValue?: (value: string) => void;
+  onKeyDown?: () => void;
+  Btn?: ReactNode;
   setErrorFalse?: () => void;
+  onChange?: (value: string) => void;
 }
 
 export const Input = memo((props: InputProps) => {
@@ -32,7 +35,9 @@ export const Input = memo((props: InputProps) => {
     setErrorFalse,
     setValue,
     onKeyDown,
-    ChangeBtn,
+    onChange,
+    Btn,
+    ...otherProps
   } = props;
   const onChangeHandler = (
     e: ChangeEvent<HTMLInputElement>
@@ -40,13 +45,18 @@ export const Input = memo((props: InputProps) => {
     if (error) {
       setErrorFalse?.();
     }
-    setValue(e.target.value);
+    if (setValue) {
+      setValue(e.target.value);
+    }
+    if (onChange) {
+      onChange(e.target.value);
+    }
   };
   const onKyeDownHandler = (
     e: KeyboardEvent<HTMLInputElement>
   ) => {
     if (type === "text" && e.key === "Enter") {
-      onKeyDown();
+      onKeyDown?.();
     }
   };
 
@@ -54,6 +64,7 @@ export const Input = memo((props: InputProps) => {
     <>
       {label && <label className={s.label}>{label}</label>}
       <input
+        {...otherProps}
         value={value}
         onChange={onChangeHandler}
         onKeyDown={onKyeDownHandler}
@@ -65,7 +76,7 @@ export const Input = memo((props: InputProps) => {
           className
         )}
       />
-      {ChangeBtn}
+      {Btn}
       {error && (
         <div className={s.errorMessage}>
           Field is required

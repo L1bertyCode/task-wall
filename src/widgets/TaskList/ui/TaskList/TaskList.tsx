@@ -6,6 +6,7 @@ import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
 import { FilterValuesType } from "@/app/App";
 import { FormAddItem } from "@/features/AddTaskItem";
+import { EditableText } from "@/features/EditableText";
 
 export interface TaskItem {
   id: string;
@@ -33,6 +34,15 @@ interface TaskListProps {
     taskListId: string
   ) => void;
   removeTaskList: (taskLitsId: string) => void;
+  onChangeTitleTaskList: (
+    title: string,
+    taskListId: string
+  ) => void;
+  onChangeTitleTaskItem: (
+    taskListId: string,
+    taskId: string,
+    title: string
+  ) => void;
 }
 
 export const TaskList = memo((props: TaskListProps) => {
@@ -47,6 +57,8 @@ export const TaskList = memo((props: TaskListProps) => {
     filter,
     taskListId,
     removeTaskList,
+    onChangeTitleTaskItem,
+    onChangeTitleTaskList,
   } = props;
 
   const onAllClickHandler = () =>
@@ -61,16 +73,36 @@ export const TaskList = memo((props: TaskListProps) => {
   const addTask = (title: string) => {
     addTaskHandler(title, taskListId);
   };
+  const onChangeTitleHandler = (title: string) => {
+    onChangeTitleTaskList(title, taskListId);
+  };
+
   return (
     <div className={s.taksList}>
       <ul className={cn(s.list, className)}>
-        {title && <h3>{title}</h3>}
+        {title && (
+          <EditableText
+            onChangeTextHandler={onChangeTitleHandler}
+            title={title}
+            editMode={true}
+          />
+        )}
+
         <FormAddItem addItem={addTask} />
         {tasksList &&
           tasksList?.map((taskItem) => {
+            const onChangeTaskItemTitleHandler = (
+              title: string
+            ) => {
+              onChangeTitleTaskItem(
+                taskListId,
+                taskItem.id,
+                title
+              );
+            };
             const onRemoveItem = () =>
               removeItem(taskItem.id, taskListId);
-            const onChangeHandler = (
+            const onChangeStatusHandler = (
               taskId: string,
               e: ChangeEvent<HTMLInputElement>
             ) => {
@@ -80,6 +112,7 @@ export const TaskList = memo((props: TaskListProps) => {
                 taskListId
               );
             };
+
             return (
               <li
                 className={cn({
@@ -91,11 +124,15 @@ export const TaskList = memo((props: TaskListProps) => {
                   type="checkbox"
                   checked={taskItem.isDone}
                   onChange={(e) =>
-                    onChangeHandler(taskItem.id, e)
+                    onChangeStatusHandler(taskItem.id, e)
                   }
                 />
 
-                <span>{taskItem.title}</span>
+                <EditableText
+                  onChangeTextHandler={onChangeTaskItemTitleHandler}
+                  title={taskItem.title}
+                  editMode={true}
+                />
                 <Button onClick={onRemoveItem}>x</Button>
               </li>
             );

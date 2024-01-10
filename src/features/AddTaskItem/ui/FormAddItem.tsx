@@ -35,7 +35,7 @@ export const FormAddItem = memo(
         setErrorFalse={setErrorFalse}
         setValue={setInputValue}
         onKeyDown={addFormItem}
-        ChangeBtn={
+        Btn={
           <Button className={s.btn} onClick={addFormItem}>
             add
           </Button>

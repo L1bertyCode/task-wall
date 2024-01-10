@@ -46,8 +46,41 @@ export const App = () => {
       filter: "complited",
     },
   ]);
-
-  function removeItem(id: string, taskListId: string) {
+  const onChangeTitleTaskList = (
+    title: string,
+    taskListId: string
+  ) => {
+    const newTaskListArray = taskListArray.map(
+      (taskListArrayItem: TaskListArrayType) => {
+        if (taskListArrayItem.id === taskListId) {
+          taskListArrayItem.title = title;
+          return taskListArrayItem;
+        }
+        return taskListArrayItem;
+      }
+    );
+    setTaskListArray([...newTaskListArray]);
+  };
+  const onChangeTitleTaskItem = (
+    taskId: string,
+    taskListId: string,
+    newTitle: string
+  ) => {
+    const newTaskListArray: TaskItem[] =
+      objetcWithSomeTaskList[taskListId];
+    newTaskListArray.map((newTaskListArrayItem) => {
+      if (newTaskListArrayItem.id === taskId) {
+        newTaskListArrayItem.title = newTitle;
+        return newTaskListArrayItem;
+      }
+      return newTaskListArrayItem;
+    });
+    objetcWithSomeTaskList[taskListId] = newTaskListArray;
+    setObjetcWithSomeTaskList({
+      ...objetcWithSomeTaskList,
+    });
+  };
+  const removeItem = (id: string, taskListId: string) => {
     let tasks = objetcWithSomeTaskList[taskListId];
     let filtredTasks = tasks.filter(
       (taskItem) => taskItem.id !== id
@@ -56,11 +89,11 @@ export const App = () => {
     setObjetcWithSomeTaskList({
       ...objetcWithSomeTaskList,
     });
-  }
-  function addTaskHandler(
+  };
+  const addTaskHandler = (
     title: string,
     taskListId: string
-  ) {
+  ) => {
     let tasks = objetcWithSomeTaskList[taskListId];
     let newTask = {
       id: v1(),
@@ -72,7 +105,7 @@ export const App = () => {
     setObjetcWithSomeTaskList({
       ...objetcWithSomeTaskList,
     });
-  }
+  };
   const changeFilter = (
     filter: FilterValuesType,
     taskListId: string
@@ -153,6 +186,8 @@ export const App = () => {
           }
           return (
             <TaskList
+              onChangeTitleTaskList={onChangeTitleTaskList}
+              onChangeTitleTaskItem={onChangeTitleTaskItem}
               taskListId={taskListArrayItem.id}
               key={taskListArrayItem.id}
               filter={taskListArrayItem.filter}
