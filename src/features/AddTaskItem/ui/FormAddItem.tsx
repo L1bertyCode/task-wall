@@ -36,7 +36,11 @@ export const FormAddItem = memo(
         setValue={setInputValue}
         onKeyDown={addFormItem}
         Btn={
-          <Button className={s.btn} onClick={addFormItem}>
+          <Button
+            className={s.btn}
+            onClick={addFormItem}
+            variant="outlined"
+          >
             add
           </Button>
         }

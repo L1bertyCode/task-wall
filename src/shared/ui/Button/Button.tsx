@@ -6,7 +6,7 @@ import {
 import cn from "classnames";
 
 import s from "./Button.module.scss";
-type ButtonVariant = "clear" | "outline" | "filled";
+type ButtonVariant = "clear" | "outlined" | "filled";
 type ButtonColorType =
   | "primary"
   | "inverted"
@@ -16,7 +16,7 @@ type ButtonColorType =
 interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
   variant?: ButtonVariant;
   colorType?: ButtonColorType;
@@ -24,12 +24,21 @@ interface ButtonProps
 }
 
 export const Button = memo((props: ButtonProps) => {
-  const { className, children, onClick, active } = props;
+  const {
+    className,
+    children,
+    onClick,
+    active,
+    variant = "outlined",
+    colorType = "primary",
+  } = props;
   return (
     <button
       onClick={onClick}
       className={cn(
         s.button,
+        s[colorType],
+        s[variant],
         { [s.active]: active },
         className
       )}

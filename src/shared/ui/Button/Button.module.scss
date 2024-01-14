@@ -1,8 +1,18 @@
 .button {
-  color: var(--inverted-text-color);
+  background: none;
   border: none;
   cursor: pointer;
 }
 .active {
   background-color: var(--accent-color);
+}
+.clear {
+  border: none;
+}
+.outlined {
+  border: 2px solid;
+  padding: 6px 15px;
+  &.primary {
+    border-color: var(--inverted-bg-color);
+  }
 }

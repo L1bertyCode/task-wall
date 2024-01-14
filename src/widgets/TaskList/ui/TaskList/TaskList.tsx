@@ -90,7 +90,7 @@ export const TaskList = memo((props: TaskListProps) => {
 
         <FormAddItem addItem={addTask} />
         {tasksList &&
-          tasksList?.map((taskItem) => {
+          tasksList?.map((taskItem: TaskItem) => {
             const onChangeTaskItemTitleHandler = (
               title: string
             ) => {
@@ -129,11 +129,17 @@ export const TaskList = memo((props: TaskListProps) => {
                 />
 
                 <EditableText
-                  onChangeTextHandler={onChangeTaskItemTitleHandler}
+                  onChangeTextHandler={
+                    onChangeTaskItemTitleHandler
+                  }
                   title={taskItem.title}
                   editMode={true}
                 />
-                <Button onClick={onRemoveItem}>x</Button>
+                <Button
+                  onClick={onRemoveItem}
+                >
+                  x
+                </Button>
               </li>
             );
           })}

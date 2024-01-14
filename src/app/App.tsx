@@ -6,6 +6,7 @@ import { useState } from "react";
 import { v1 } from "uuid";
 import { FormAddItem } from "@/features/AddTaskItem";
 import { TaskItem } from "@/widgets/TaskList/ui/TaskList/TaskList";
+import { Button } from "@/shared/ui/Button/Button";
 export type TaskObjectType = {
   [key: string]: TaskItem[];
 };
@@ -62,23 +63,36 @@ export const App = () => {
     setTaskListArray([...newTaskListArray]);
   };
   const onChangeTitleTaskItem = (
-    taskId: string,
     taskListId: string,
+    taskId: string,
     newTitle: string
   ) => {
-    const newTaskListArray: TaskItem[] =
+    console.log("taskListId", taskListId);
+    console.log(
+      "objetcWithSomeTaskList",
+      objetcWithSomeTaskList
+    );
+    console.log(
+      " objetcWithSomeTaskList[taskListId]",
+      objetcWithSomeTaskList[taskListId]
+    );
+    const newTaskListArray =
       objetcWithSomeTaskList[taskListId];
-    newTaskListArray.map((newTaskListArrayItem) => {
-      if (newTaskListArrayItem.id === taskId) {
-        newTaskListArrayItem.title = newTitle;
+    console.log("newTaskListArray", newTaskListArray);
+
+    if (newTaskListArray) {
+      newTaskListArray.map((newTaskListArrayItem) => {
+        if (newTaskListArrayItem.id === taskId) {
+          newTaskListArrayItem.title = newTitle;
+          return newTaskListArrayItem;
+        }
         return newTaskListArrayItem;
-      }
-      return newTaskListArrayItem;
-    });
-    objetcWithSomeTaskList[taskListId] = newTaskListArray;
-    setObjetcWithSomeTaskList({
-      ...objetcWithSomeTaskList,
-    });
+      });
+      objetcWithSomeTaskList[taskListId] = newTaskListArray;
+      setObjetcWithSomeTaskList({
+        ...objetcWithSomeTaskList,
+      });
+    }
   };
   const removeItem = (id: string, taskListId: string) => {
     let tasks = objetcWithSomeTaskList[taskListId];
@@ -164,6 +178,7 @@ export const App = () => {
   };
   return (
     <div className={cn("app", "app_blue_theme")}>
+      <Button variant="outlined">add</Button>
       <FormAddItem addItem={addTaskList} />
       <div className={"taskListBlock"}>
         {taskListArray.map((taskListArrayItem) => {
