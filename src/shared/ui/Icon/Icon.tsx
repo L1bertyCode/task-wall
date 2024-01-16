@@ -1,12 +1,20 @@
-import { memo } from "react";
+import { FunctionComponent, SVGProps, memo } from "react";
 
 import cn from "classnames";
 import s from "./Icon.module.scss";
-type SvgProps = Omit<React.SVGProps<SVGElement>, "onClick">;
+type SvgProps = Omit<SVGProps<SVGElement>, "onClick">;
 
-export interface IconBaseProps extends SvgProps {
+type IconColorType =
+ | "primary"
+ | "inverted"
+ | "cancel"
+ | "save"
+ | "hint";
+export interface IconBaseProps
+ extends SVGProps<SVGElement> {
  className?: string;
- Svg: React.FunctionComponent<React.SVGProps<SVGElement>>;
+ Svg: FunctionComponent<SVGProps<SVGElement>>;
+ colorType?: IconColorType;
 }
 export interface NonClickableIconBaseProps
  extends IconBaseProps {
@@ -21,13 +29,14 @@ type IconProps =
  | NonClickableIconBaseProps
  | ClickableIconBaseProps;
 
-export const Icon = memo((props: IconProps) => {
+export const Icon = memo((props: IconBaseProps) => {
  const {
   className,
   Svg,
+  colorType = "primary",
   width = "20px",
   height = "20px",
-  clickable,
+  // clickable,
   ...otherProps
  } = props;
 
@@ -37,17 +46,17 @@ export const Icon = memo((props: IconProps) => {
    width={width}
    height={height}
    onClick={undefined}
-   className={cn(s.icon, className)}
+   className={cn(s.icon, s[colorType], className)}
   />
  );
- if (clickable) {
-  <button
-   className={s.btn}
-   type="button"
-   onClick={props.onClick}
-  >
-   {icon}
-  </button>;
- }
+ //  if (clickable) {
+ //   <button
+ //    className={s.btn}
+ //    type="button"
+ //    onClick={props.onClick}
+ //   >
+ //    {icon}
+ //   </button>;
+ //  }
  return icon;
 });

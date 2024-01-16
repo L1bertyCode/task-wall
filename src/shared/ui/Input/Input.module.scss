@@ -1,9 +1,13 @@
 .input {
-  color: var(--inverted-text-color);
+ outline: none;
+ border-radius: var(--b-rad-s);
+ border: 0 0 1px 0;
+ padding: 6px 10px;
+ color: var(--inverted-text-color);
 }
 .error {
-  border-color: var(--red-dark);
+ border-color: var(--red-dark);
 }
 .errorMessage {
-  color: var(--red-dark);
+ color: var(--red-dark);
 }

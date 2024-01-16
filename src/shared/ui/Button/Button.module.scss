@@ -3,15 +3,26 @@
  border: none;
  cursor: pointer;
 }
-.active {
- background-color: var(--accent-color);
-}
+
 .clear {
  border: none;
 }
 .outlined {
  border: 2px solid;
  padding: 6px 15px;
+ border-radius: var(--b-rad-s);
+ transition: background linear var(--transition-delay);
+ transition: color linear var(--transition-delay);
+ &.active {
+  background-color: var(--inverted-bg-color);
+  color: var(--bg-color);
+ }
+ &:hover {
+  transition: background linear var(--transition-delay);
+  transition: color linear var(--transition-delay);
+  background: var(--inverted-bg-color);
+  color: var(--bg-color);
+ }
  &.primary {
   border-color: var(--inverted-bg-color);
  }

@@ -176,9 +176,8 @@ export const App = () => {
  };
  return (
   <div className={cn("app", "app_blue_theme")}>
-   <Button variant="outlined">add</Button>
    <FormAddItem addItem={addTaskList} />
-   <div className={"taskListBlock"}>
+   <div className={"taskListArray"}>
     {taskListArray.map((taskListArrayItem) => {
      let filtredTasks =
       objetcWithSomeTaskList[taskListArrayItem.id];
@@ -193,6 +192,7 @@ export const App = () => {
      }
      return (
       <TaskList
+       className={"taskListItem"}
        onChangeTitleTaskList={onChangeTitleTaskList}
        onChangeTitleTaskItem={onChangeTitleTaskItem}
        taskListId={taskListArrayItem.id}

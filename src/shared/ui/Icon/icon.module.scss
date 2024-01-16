@@ -1,7 +1,11 @@
 .icon {
- fill: var(--inverted-bg-color);
+ &.primary {
+  fill: var(--inverted-bg-color);
+ }
 }
-
+.icon:hover {
+ border: 1px solid red;
+}
 .btn {
  margin: 0;
  padding: 0;

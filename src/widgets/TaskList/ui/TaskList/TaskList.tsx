@@ -80,8 +80,8 @@ export const TaskList = memo((props: TaskListProps) => {
  };
 
  return (
-  <div className={s.taksList}>
-   <ul className={cn(s.list, className)}>
+  <div className={cn(s.taksList, className)}>
+   <ul className={s.list}>
     <div>
      {title && (
       <EditableText
@@ -90,11 +90,12 @@ export const TaskList = memo((props: TaskListProps) => {
        editMode={true}
       />
      )}
-
-     <Icon
-      Svg={RemoveIcon}
+     <Button
+      variant="clear"
       onClick={removeTaskListHandler}
-     />
+     >
+      <Icon Svg={RemoveIcon} />
+     </Button>
     </div>
     <FormAddItem addItem={addTask} />
     {tasksList &&
@@ -141,7 +142,9 @@ export const TaskList = memo((props: TaskListProps) => {
          title={taskItem.title}
          editMode={true}
         />
-        <Button onClick={onRemoveItem}>x</Button>
+        <Button variant="clear" onClick={onRemoveItem}>
+         <Icon Svg={RemoveIcon} />
+        </Button>
        </li>
       );
      })}
