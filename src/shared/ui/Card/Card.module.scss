@@ -1,0 +1,38 @@
+.card {
+}
+.lightBg {
+ background: var(--light-bg-color);
+ box-shadow: 2px 2px 2px 1px var(--dark-bg-color);
+}
+.darkBg {
+ background: var(--dark-bg-color);
+ box-shadow: 2px 2px 2px 1px var(--light-bg-color);
+}
+.gap_0 {
+ padding: 0;
+}
+.gap_8 {
+ padding: 8px;
+}
+.gap_12 {
+ padding: 12px;
+}
+.gap_16 {
+ padding: 16px;
+}
+.gap_20 {
+ padding: 20px;
+}
+.gap_24 {
+ padding: 24px;
+}
+
+.radius_s {
+ border-radius: var(--b-rad-s);
+}
+.radius_m {
+ border-radius: var(--b-rad-m);
+}
+.radius_l {
+ border-radius: var(--b-rad-l);
+}

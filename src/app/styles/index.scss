@@ -17,10 +17,16 @@ body,
  background: var(--bg-color);
  color: var(--text-color);
 }
+
+.container {
+ max-width: 1600px;
+ margin: 0 auto;
+ padding: 0 20px;
+}
 .taskListArray {
  display: flex;
 }
 
 .taskListItem {
- margin: 20px;
+ margin: 8px;
 }

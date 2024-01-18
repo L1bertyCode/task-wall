@@ -27,6 +27,11 @@
  --font-xl: var(--font-size-xl) / var(--font-line-xl)
   var(--font-family-main);
 
+ /* Sizes */
+ --navbar-height: 50px;
+ --sidebar-width: 300px;
+ --sidebar-width-collapsed: 80px;
+
  /* Transition delay */
  --transition-delay: 0.3s;
 
@@ -45,6 +50,8 @@
 
  /*Border radius*/
  --b-rad-s: 12px;
+ --b-rad-m: 24px;
+ --b-rad-l: 36px;
 
  // redesigned
 

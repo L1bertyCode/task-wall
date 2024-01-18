@@ -9,6 +9,7 @@ import { FormAddItem } from "@/features/AddTaskItem";
 import { EditableText } from "@/features/EditableText";
 import RemoveIcon from "@/shared/assets/icons/remove.svg";
 import { Icon } from "@/shared/ui/Icon/Icon";
+import { Card } from "@/shared/ui/Card/Card";
 
 export interface TaskItem {
  id: string;
@@ -81,7 +82,7 @@ export const TaskList = memo((props: TaskListProps) => {
 
  return (
   <div className={cn(s.taksList, className)}>
-   <ul className={s.list}>
+   <Card className={s.list}>
     <div>
      {title && (
       <EditableText
@@ -148,27 +149,27 @@ export const TaskList = memo((props: TaskListProps) => {
        </li>
       );
      })}
-   </ul>
-   <div className={"btns"}>
-    <Button
-     active={filter === "all"}
-     onClick={onAllClickHandler}
-    >
-     All
-    </Button>
-    <Button
-     active={filter === "active"}
-     onClick={onActiveClickHandler}
-    >
-     Active
-    </Button>
-    <Button
-     active={filter === "complited"}
-     onClick={onComplitedClickHandler}
-    >
-     Complited
-    </Button>
-   </div>
+    <div className={"btns"}>
+     <Button
+      active={filter === "all"}
+      onClick={onAllClickHandler}
+     >
+      All
+     </Button>
+     <Button
+      active={filter === "active"}
+      onClick={onActiveClickHandler}
+     >
+      Active
+     </Button>
+     <Button
+      active={filter === "complited"}
+      onClick={onComplitedClickHandler}
+     >
+      Complited
+     </Button>
+    </div>
+   </Card>
   </div>
  );
 });
