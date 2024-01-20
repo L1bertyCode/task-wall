@@ -1,13 +1,13 @@
+import { useState } from "react";
+import { v1 } from "uuid";
+
+import { Header } from "@/widgets/Header";
+import { TaskList } from "@/widgets/TaskList";
+import { TaskItem } from "@/widgets/TaskList/ui/TaskList/TaskList";
+import { FormAddItem } from "@/features/AddTaskItem";
+
 import cn from "classnames";
 import "./styles/index.scss";
-import { TaskList } from "@/widgets/TaskList";
-import { useState } from "react";
-
-import { v1 } from "uuid";
-import { FormAddItem } from "@/features/AddTaskItem";
-import { TaskItem } from "@/widgets/TaskList/ui/TaskList/TaskList";
-import { Button } from "@/shared/ui/Button/Button";
-import { Header } from "@/widgets/Header";
 export type TaskObjectType = {
  [key: string]: TaskItem[];
 };
