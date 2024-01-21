@@ -32,5 +32,15 @@ export function buildLoaders(
   test: /\.svg$/,
   use: ["@svgr/webpack"],
  };
- return [tsLoader, scssLoader, svgrLoader];
+ const babelLoader = {
+  test: /\.m?js$/,
+  exclude: /node_modules/,
+  use: {
+   loader: "babel-loader",
+   options: {
+    presets: ["@babel/preset-env"],
+   },
+  },
+ };
+ return [babelLoader, tsLoader, scssLoader, svgrLoader];
 }
