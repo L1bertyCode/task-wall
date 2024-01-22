@@ -8,6 +8,7 @@ import { FormAddItem } from "@/features/AddTaskItem";
 
 import cn from "classnames";
 import "./styles/index.scss";
+import { Button } from "@/shared/ui/Button/Button";
 export type TaskObjectType = {
  [key: string]: TaskItem[];
 };
@@ -20,7 +21,12 @@ interface TaskListArrayType {
  title: string;
  filter: FilterValuesType;
 }
+export enum Theme {
+ LIGHT = "app_light_theme",
+ BLUE = "app_blue_theme",
+}
 export const App = () => {
+ const [theme, setTheme] = useState<Theme>(Theme.BLUE);
  let taskListId1 = v1();
  let taskListId2 = v1();
  const [objetcWithSomeTaskList, setObjetcWithSomeTaskList] =
@@ -176,8 +182,17 @@ export const App = () => {
   });
  };
  return (
-  <div className={cn("app", "app_blue_theme")}>
+  <div className={cn("app", theme)}>
    <Header />
+   <Button
+    onClick={() => {
+     theme === Theme.LIGHT
+      ? setTheme(Theme.BLUE)
+      : setTheme(Theme.LIGHT);
+    }}
+   >
+    change theme
+   </Button>
    <div className={"container"}>
     <FormAddItem addItem={addTaskList} />
     <div className={"taskListArray"}>
