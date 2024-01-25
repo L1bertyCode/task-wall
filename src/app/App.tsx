@@ -9,6 +9,7 @@ import { FormAddItem } from "@/features/AddTaskItem";
 import cn from "classnames";
 import "./styles/index.scss";
 import { Button } from "@/shared/ui/Button/Button";
+
 export type TaskObjectType = {
  [key: string]: TaskItem[];
 };
@@ -184,6 +185,7 @@ export const App = () => {
  return (
   <div className={cn("app", theme)}>
    <Header />
+
    <Button
     onClick={() => {
      theme === Theme.LIGHT

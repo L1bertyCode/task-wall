@@ -5,6 +5,7 @@ import {
 import { AddTaskItemSchema } from "../types/addTaskItem";
 const initialState: AddTaskItemSchema = {
  text: undefined,
+ error: undefined,
 };
 export const addTaskItemSlice = createSlice({
  name: "addTaskItemSlice",
@@ -12,6 +13,9 @@ export const addTaskItemSlice = createSlice({
  reducers: {
   setText: (state, action: PayloadAction<string>) => {
    state.text = action.payload;
+  },
+  setError: (state, action: PayloadAction<string>) => {
+   state.error = action.payload;
   },
  },
 });
