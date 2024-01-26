@@ -27,11 +27,9 @@ export const FormAddItem = memo(
   const addFormItem = () => {
    if (text?.trim()) {
     addItem(text?.trim());
-  
    } else {
     setInputError("Field is required");
    }
-
    if (inputValue.trim()) {
     addItem(inputValue.trim());
     setInputValue("");
@@ -39,6 +37,7 @@ export const FormAddItem = memo(
     setInputError("Field is required");
    }
   };
+  
   const setErrorFalse = () => setInputError("");
 
   return (
