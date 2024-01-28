@@ -1,4 +1,4 @@
 export interface AddTaskItemSchema {
- text?: string;
+ taskList?: string[];
  error?: string;
 }

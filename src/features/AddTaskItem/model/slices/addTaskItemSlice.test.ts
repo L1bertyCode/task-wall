@@ -1,4 +1,3 @@
-import { StateSchema } from "@/app/providers/StoreProvider/config/StateSchema";
 import { AddTaskItemSchema } from "../types/addTaskItem";
 import {
  addTaskItemActions,
@@ -9,15 +8,15 @@ import { error } from "console";
 describe("addTaskItemSlice.test", () => {
  test("setText", () => {
   const state: DeepPartial<AddTaskItemSchema> = {
-   text: "text",
+   taskList: ["text1", "text2"],
   };
   expect(
    addTaskItemReducer(
-    state,
+    state as AddTaskItemSchema,
     addTaskItemActions.setText("new text")
    )
   ).toEqual({
-   text: "new text",
+   taskList: ["text1", "text2", "new text"],
   });
  });
 
@@ -28,7 +27,7 @@ describe("addTaskItemSlice.test", () => {
 
   expect(
    addTaskItemReducer(
-    state,
+    state as AddTaskItemSchema,
     addTaskItemActions.setError("")
    )
   ).toEqual({

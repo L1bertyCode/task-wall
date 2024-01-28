@@ -4,7 +4,7 @@ import {
 } from "@reduxjs/toolkit";
 import { AddTaskItemSchema } from "../types/addTaskItem";
 const initialState: AddTaskItemSchema = {
- text: undefined,
+ taskList: [],
  error: undefined,
 };
 export const addTaskItemSlice = createSlice({
@@ -12,7 +12,7 @@ export const addTaskItemSlice = createSlice({
  initialState,
  reducers: {
   setText: (state, action: PayloadAction<string>) => {
-   state.text = action.payload;
+   state.taskList?.push(action.payload);
   },
   setError: (state, action: PayloadAction<string>) => {
    state.error = action.payload;
