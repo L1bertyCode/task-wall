@@ -5,8 +5,6 @@ import s from "./FormAddItem.module.scss";
 import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
 import { useSelector } from "react-redux";
-import { getAddTaskList } from "../model/selectors/getAddTaskList/getAddTaskList";
-import { getAddTaskItemError } from "../model/selectors/getAddTaskItemError/getAddTaskItemError";
 import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
 import { addTaskItemActions } from "../model/slices/addTaskItemSlice";
 

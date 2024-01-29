@@ -5,8 +5,8 @@ import s from "./TaskList.module.scss";
 
 import { Button } from "@/shared/ui/Button/Button";
 import { FilterValuesType } from "@/app/App";
-import { FormAddItem } from "@/features/AddTaskItem";
-import { EditableText } from "@/features/EditableText";
+import { FormAddItem } from "@/features/addTaskItem";
+import { EditableText } from "@/features/editableText";
 import RemoveIcon from "@/shared/assets/icons/remove.svg";
 import { Icon } from "@/shared/ui/Icon/Icon";
 import { Card } from "@/shared/ui/Card/Card";

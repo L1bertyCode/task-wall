@@ -4,11 +4,12 @@ import { v1 } from "uuid";
 import { Header } from "@/widgets/Header";
 import { TaskList } from "@/widgets/TaskList";
 import { TaskItem } from "@/widgets/TaskList/ui/TaskList/TaskList";
-import { FormAddItem } from "@/features/AddTaskItem";
+import { FormAddItem } from "@/features/addTaskItem";
 
 import cn from "classnames";
 import "./styles/index.scss";
 import { Button } from "@/shared/ui/Button/Button";
+import { AddTaskCard } from "@/features/addTaskCard";
 
 export type TaskObjectType = {
  [key: string]: TaskItem[];
@@ -197,6 +198,7 @@ export const App = () => {
    </Button>
    <div className={"container"}>
     <FormAddItem addItem={addTaskList} />
+    <AddTaskCard/>
     <div className={"taskListArray"}>
      {taskListArray.map((taskListArrayItem) => {
       let filtredTasks =

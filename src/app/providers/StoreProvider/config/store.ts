@@ -1,4 +1,4 @@
-import { addTaskItemReducer } from "@/features/AddTaskItem";
+import { addTaskItemReducer } from "@/features/addTaskItem";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
