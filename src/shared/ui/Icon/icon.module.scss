@@ -2,4 +2,7 @@
  &.primary {
   fill: var(--inverted-bg-color);
  }
+ &.inverted {
+  fill: var(--bg-color);
+ }
 }

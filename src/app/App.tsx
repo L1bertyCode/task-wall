@@ -9,6 +9,7 @@ import { FormAddItem } from "@/features/addTaskItem";
 import cn from "classnames";
 import "./styles/index.scss";
 import { Button } from "@/shared/ui/Button/Button";
+import { Page } from "@/shared/layouts/Page";
 
 export type TaskObjectType = {
  [key: string]: TaskItem[];
@@ -196,7 +197,7 @@ export const App = () => {
   <div className={cn("app", theme)}>
    <Header theme={theme} chnageTheme={chnageTheme} />
 
-   <div className={"container"}>
+   <Page className={"container"}>
     <FormAddItem addItem={onAddTaskList} />
     <div className={"taskListArray"}>
      {taskListArray.map((taskListArrayItem) => {
@@ -230,7 +231,7 @@ export const App = () => {
       );
      })}
     </div>
-   </div>
+   </Page>
   </div>
  );
 };

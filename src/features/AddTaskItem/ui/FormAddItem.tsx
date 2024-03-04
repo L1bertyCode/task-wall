@@ -4,9 +4,6 @@ import s from "./FormAddItem.module.scss";
 
 import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
-import { addTaskItemActions } from "../model/slices/addTaskItemSlice";
 
 interface FormAddItemProps {
  className?: string;
@@ -16,7 +13,6 @@ interface FormAddItemProps {
 export const FormAddItem = memo(
  (props: FormAddItemProps) => {
   const { className, addItem } = props;
-  const dispatch = useAppDispatch;
 
   const [inputValue, setInputValue] = useState<string>("");
   const [inputError, setInputError] = useState<string>("");

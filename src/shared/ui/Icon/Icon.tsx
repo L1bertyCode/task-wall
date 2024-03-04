@@ -2,7 +2,6 @@ import { FunctionComponent, SVGProps, memo } from "react";
 
 import cn from "classnames";
 import s from "./Icon.module.scss";
-type SvgProps = Omit<SVGProps<SVGElement>, "onClick">;
 
 type IconColorType =
  | "primary"
