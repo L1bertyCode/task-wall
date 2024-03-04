@@ -1,4 +1,8 @@
 .header {
  background: var(--inverted-bg-color);
  height: var(--navbar-height);
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 12px;
 }

@@ -9,7 +9,6 @@ import { FormAddItem } from "@/features/addTaskItem";
 import cn from "classnames";
 import "./styles/index.scss";
 import { Button } from "@/shared/ui/Button/Button";
-import { AddTaskCard } from "@/features/addTaskCard";
 
 export type TaskObjectType = {
  [key: string]: TaskItem[];
@@ -29,8 +28,10 @@ export enum Theme {
 }
 export const App = () => {
  const [theme, setTheme] = useState<Theme>(Theme.BLUE);
+
  let taskListId1 = v1();
  let taskListId2 = v1();
+
  const [objetcWithSomeTaskList, setObjetcWithSomeTaskList] =
   useState<TaskObjectType>({
    [taskListId1]: [
@@ -44,6 +45,7 @@ export const App = () => {
     { id: v1(), title: "milk", isDone: false },
    ],
   });
+
  const [taskListArray, setTaskListArray] = useState<
   TaskListArrayType[]
  >([
@@ -54,6 +56,7 @@ export const App = () => {
    filter: "complited",
   },
  ]);
+
  const onChangeTitleTaskList = (
   title: string,
   taskListId: string
@@ -168,7 +171,7 @@ export const App = () => {
   setTaskListArray([...filtredTaslList]);
   delete objetcWithSomeTaskList[taskListId];
  };
- const addTaskList = (title: string) => {
+ const onAddTaskList = (title: string) => {
   const newTaskList: TaskListArrayType = {
    id: v1(),
    filter: "all",
@@ -183,22 +186,18 @@ export const App = () => {
    ],
   });
  };
+
+ const chnageTheme = () => {
+  theme === Theme.LIGHT
+   ? setTheme(Theme.BLUE)
+   : setTheme(Theme.LIGHT);
+ };
  return (
   <div className={cn("app", theme)}>
-   <Header />
+   <Header theme={theme} chnageTheme={chnageTheme} />
 
-   <Button
-    onClick={() => {
-     theme === Theme.LIGHT
-      ? setTheme(Theme.BLUE)
-      : setTheme(Theme.LIGHT);
-    }}
-   >
-    change theme
-   </Button>
    <div className={"container"}>
-    <FormAddItem addItem={addTaskList} />
-    <AddTaskCard/>
+    <FormAddItem addItem={onAddTaskList} />
     <div className={"taskListArray"}>
      {taskListArray.map((taskListArrayItem) => {
       let filtredTasks =
