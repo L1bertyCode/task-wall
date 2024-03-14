@@ -1,33 +1,40 @@
+import { Card } from "@/shared/ui/Card/Card";
 import { TaskListSchema } from "../../model/taskList";
-
-export const TaskList = ({ title }: TaskListSchema) => {
+import s from "./TaskList.module.scss";
+import { Button } from "@/shared/ui/Button/Button";
+export const TaskList = ({
+ title,
+ taskItemsList,
+ date,
+}: TaskListSchema) => {
  return (
-  <div>
+  <Card>
    <h3>{title}</h3>
    <div>
     <input />
-    <button>+</button>
+    <Button>+</Button>
    </div>
-   <ul>
-    <li>
-     <input type="checkbox" checked={true} />{" "}
-     <span>HTML&CSS</span>
-    </li>
-    <li>
-     <input type="checkbox" checked={true} />{" "}
-     <span>JS</span>
-    </li>
-    <li>
-     <input type="checkbox" checked={false} />{" "}
-     <span>React</span>
-    </li>
-   </ul>
+   {taskItemsList.length === 0 ? (
+    <p>Tasks not assigned</p>
+   ) : (
+    <ul>
+     {taskItemsList.map((taskItem) => {
+      return (
+       <li key={taskItem.id}>
+        <input type="checkbox" checked={taskItem.isDone} />
+        <span>{taskItem.title}</span>
+       </li>
+      );
+     })}
+    </ul>
+   )}
    <div>
-    <button>All</button>
-    <button>Active</button>
-    <button>Completed</button>
+    <Button>All</Button>
+    <Button>Active</Button>
+    <Button>Completed</Button>
    </div>
-  </div>
+   <span>{date}</span>
+  </Card>
  );
 };
 
