@@ -5,8 +5,7 @@ import { Button } from "@/shared/ui/Button/Button";
 import { Theme } from "@/app/App";
 
 import Typewriter from "@/shared/assets/icons/tw.svg";
-import { Icon } from "@/shared/ui/Icon/Icon";
-import { AppLink } from "@/shared/ui/AppLink/AppLink";
+import { Icon } from "@/shared/ui/Icon/Icon"; 
 
 interface HeaderProps {
  className?: string;
