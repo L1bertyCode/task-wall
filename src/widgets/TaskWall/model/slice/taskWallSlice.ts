@@ -35,7 +35,13 @@ const initialState: TaskWallSchema = {
 export const taskWallSlice = createSlice({
  name: "taskWall",
  initialState,
- reducers: {},
+ reducers: {
+  removerTaskList(state, action) {
+   state.taskWall = state.taskWall.filter(
+    (taskList) => action.payload !== taskList.id
+   );
+  },
+ },
 });
 export const {
  actions: taskWallActions,

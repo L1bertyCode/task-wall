@@ -1,3 +1,7 @@
 .isDone {
  opacity: var(--opacity50);
 }
+.header {
+ display: flex;
+ justify-content: space-between;
+}
