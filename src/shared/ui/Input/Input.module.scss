@@ -1,9 +1,20 @@
+.inputWrapper {
+ position: relative;
+ width: fit-content;
+}
 .input {
  outline: none;
  border-radius: var(--b-rad-s);
  border: 1px solid var(--text-color);
  padding: 6px 10px;
  background: var(--dark-bg-color);
+}
+.clearInput {
+ padding: 8px;
+ position: absolute;
+ right: 8px;
+ top: 50%;
+ transform: translateY(-50%);
 }
 .error {
  border-color: var(--red-dark);

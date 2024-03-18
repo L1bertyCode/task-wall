@@ -6,36 +6,64 @@ import { TaskItem } from "../TaskItem/TaskItem";
 
 import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
 import { taskWallActions } from "@/widgets/TaskWall";
+import { useState } from "react";
+import { Input } from "@/shared/ui/Input/Input";
 interface TaskListProps {
  taskList: TaskListSchema;
+ addTask?: (title: string) => void;
 }
-export const TaskList = ({ taskList }: TaskListProps) => {
+export const TaskList = ({
+ taskList,
+ addTask,
+}: TaskListProps) => {
+ const [filter, setFilter] = useState<
+  "all" | "active" | "completed"
+ >("all");
+ const [value, setValue] = useState("");
  const { title, taskItemsList, date, id } = taskList;
  const dispatch = useAppDispatch();
+
+ let taskForTodoList = taskItemsList;
+ switch (filter) {
+  case "active":
+   taskForTodoList = taskItemsList.filter(
+    (task) => task.isDone === false
+   );
+   break;
+  case "completed":
+   taskForTodoList = taskItemsList.filter(
+    (task) => task.isDone === true
+   );
+   break;
+  default:
+   taskForTodoList = taskItemsList;
+   break;
+ }
  return (
   <Card>
    <div className={s.header}>
     <h3>{title}</h3>
-    <Button
-     onClick={() =>
-      dispatch(taskWallActions.removerTaskList(id))
-     }
-    >
-     x
-    </Button>
+    <Button onClick={() => {}}>x</Button>
    </div>
    <div>
-    <input />
-    <Button>+</Button>
+    <Input value={value} setValue={setValue} />
+    <Button
+     onClick={() => {
+      addTask?.(value);
+      setValue("");
+     }}
+    >
+     +
+    </Button>
    </div>
    {taskItemsList.length === 0 ? (
     <p>Tasks not assigned</p>
    ) : (
     <ul>
-     {taskItemsList.map((taskItem, i) => {
+     {taskForTodoList.map((taskItem, i) => {
       return (
        <TaskItem
-       taskList={taskList}
+        taskList={taskList}
         key={taskItem.id + taskItem.title}
         taskItem={taskItem}
        />
@@ -44,9 +72,24 @@ export const TaskList = ({ taskList }: TaskListProps) => {
     </ul>
    )}
    <div>
-    <Button>All</Button>
-    <Button>Active</Button>
-    <Button>Completed</Button>
+    <Button
+     active={filter === "all"}
+     onClick={() => setFilter("all")}
+    >
+     All
+    </Button>
+    <Button
+     active={filter === "active"}
+     onClick={() => setFilter("active")}
+    >
+     Active
+    </Button>
+    <Button
+     active={filter === "completed"}
+     onClick={() => setFilter("completed")}
+    >
+     Completed
+    </Button>
    </div>
    <span>{date}</span>
   </Card>

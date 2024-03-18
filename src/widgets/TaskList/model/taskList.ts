@@ -1,10 +1,10 @@
 export interface TaskItemSchema {
- id: number;
+ id: string;
  title: string;
  isDone: boolean;
 }
 export interface TaskListSchema {
- id: number;
+ id: string;
  title: string;
  taskItemsList: TaskItemSchema[];
  date?: string;
