@@ -1,4 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {
+ createSlice,
+ PayloadAction,
+} from "@reduxjs/toolkit";
 import { TaskWallSchema } from "../types/taskWall";
 const initialState: TaskWallSchema = {
  taskWall: [
@@ -36,10 +39,41 @@ export const taskWallSlice = createSlice({
  name: "taskWall",
  initialState,
  reducers: {
-  removerTaskList(state, action) {
+  removerTaskList(state, action: PayloadAction<number>) {
    state.taskWall = state.taskWall.filter(
     (taskList) => action.payload !== taskList.id
    );
+  },
+  removeTask(
+   state,
+   action: PayloadAction<{
+    numberList: number;
+    numberTask: number;
+   }>
+  ) {
+   const filtredTaskWall = state.taskWall.map(
+    (taskList) => {
+     console.log(
+      "action.payload.numberList",
+      action.payload.numberList
+     );
+
+     if (action.payload.numberList === taskList.id) {
+      const newTaskList = {
+       ...taskList,
+       ...taskList.taskItemsList.filter(
+        (task) => task.id !== action.payload.numberTask
+       ),
+      };
+
+      return newTaskList;
+     }
+     return taskList;
+    }
+   );
+   console.log("filtredTaskWall", filtredTaskWall);
+
+   state.taskWall = [...filtredTaskWall];
   },
  },
 });

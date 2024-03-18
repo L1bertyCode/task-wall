@@ -35,6 +35,7 @@ export const TaskList = ({ taskList }: TaskListProps) => {
      {taskItemsList.map((taskItem, i) => {
       return (
        <TaskItem
+       taskList={taskList}
         key={taskItem.id + taskItem.title}
         taskItem={taskItem}
        />
