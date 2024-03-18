@@ -55,7 +55,7 @@ export const Input = memo((props: InputProps) => {
  const onKyeDownHandler = (
   e: KeyboardEvent<HTMLInputElement>
  ) => {
-  if (type === "text" && e.key === "Enter") {
+  if (e.key === "Enter") {
    onKeyDown?.();
   }
  };

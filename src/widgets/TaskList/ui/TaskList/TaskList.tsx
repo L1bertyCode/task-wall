@@ -11,10 +11,17 @@ import { Input } from "@/shared/ui/Input/Input";
 interface TaskListProps {
  taskList: TaskListSchema;
  addTask?: (title: string) => void;
+ changeTaskStatus?: (
+  taskId: string,
+  taskStatus: boolean
+ ) => void;
+ removeTask?: (taskId: string) => void;
 }
 export const TaskList = ({
  taskList,
  addTask,
+ changeTaskStatus,
+ removeTask,
 }: TaskListProps) => {
  const [filter, setFilter] = useState<
   "all" | "active" | "completed"
@@ -46,11 +53,23 @@ export const TaskList = ({
     <Button onClick={() => {}}>x</Button>
    </div>
    <div>
-    <Input value={value} setValue={setValue} />
+    <Input
+     value={value}
+     setValue={setValue}
+     onChange={(value: string) => setValue(value)}
+     onKeyDown={() => {
+      if (value) {
+       addTask?.(value);
+       setValue("");
+      }
+     }}
+    />
     <Button
      onClick={() => {
-      addTask?.(value);
-      setValue("");
+      if (value) {
+       addTask?.(value);
+       setValue("");
+      }
      }}
     >
      +
@@ -63,6 +82,8 @@ export const TaskList = ({
      {taskForTodoList.map((taskItem, i) => {
       return (
        <TaskItem
+        removeTask={removeTask}
+        changeTaskStatus={changeTaskStatus}
         taskList={taskList}
         key={taskItem.id + taskItem.title}
         taskItem={taskItem}

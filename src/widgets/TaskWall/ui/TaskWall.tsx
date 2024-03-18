@@ -19,37 +19,39 @@ interface TaskWallProps {
 export const TaskWall = memo((props: TaskWallProps) => {
  const { className } = props;
 
- const [taskWall, setTaskWall] = useState([
-  {
-   date: "01.01.2024",
-   id: v1(),
-   title: "What to learn",
-   taskItemsList: [
-    { id: v1(), title: "HTML&CSS", isDone: false },
-    { id: v1(), title: "JS", isDone: false },
-    { id: v1(), title: "ReactJS", isDone: false },
-   ],
-  },
-  {
-   id: v1(),
-   title: "Songs",
-   taskItemsList: [
-    { id: v1(), title: "Feature", isDone: false },
-    { id: v1(), title: "Sun", isDone: false },
-    { id: v1(), title: "Never", isDone: false },
-   ],
-  },
-  {
-   id: v1(),
-   title: "Books",
-   taskItemsList: [
-    { id: v1(), title: "Ice", isDone: false },
-    { id: v1(), title: "Rain", isDone: false },
-    { id: v1(), title: "Dark", isDone: false },
-   ],
-  },
- ]);
- const [taskList1, setTaskList1] = useState({
+ const [taskWall, setTaskWall] = useState<TaskListSchema[]>(
+  [
+   {
+    date: "01.01.2024",
+    id: v1(),
+    title: "What to learn",
+    taskItemsList: [
+     { id: v1(), title: "HTML&CSS", isDone: false },
+     { id: v1(), title: "JS", isDone: false },
+     { id: v1(), title: "ReactJS", isDone: false },
+    ],
+   },
+   {
+    id: v1(),
+    title: "Songs",
+    taskItemsList: [
+     { id: v1(), title: "Feature", isDone: false },
+     { id: v1(), title: "Sun", isDone: false },
+     { id: v1(), title: "Never", isDone: false },
+    ],
+   },
+   {
+    id: v1(),
+    title: "Books",
+    taskItemsList: [
+     { id: v1(), title: "Ice", isDone: false },
+     { id: v1(), title: "Rain", isDone: false },
+     { id: v1(), title: "Dark", isDone: false },
+    ],
+   },
+  ]
+ );
+ const [taskList, setTaskList] = useState<TaskListSchema>({
   date: "01.01.2024",
   id: v1(),
   title: "What to learn",
@@ -65,15 +67,33 @@ export const TaskWall = memo((props: TaskWallProps) => {
    isDone: false,
    title: title,
   };
-  taskList1.taskItemsList.push(newTask);
-  setTaskList1({ ...taskList1 });
+  taskList.taskItemsList.push(newTask);
+  setTaskList({ ...taskList });
+ };
+ const changeTaskStatus = (
+  taskId: string,
+  taskStatus: boolean
+ ) => {
+  const task = taskList.taskItemsList.find(
+   (task) => task.id === taskId
+  );
+  if (task) {
+   task.isDone = taskStatus;
+  }
+  setTaskList({ ...taskList });
+ };
+ const removeTask = (taskId: string) => {
+  taskList.taskItemsList = taskList.taskItemsList.filter(
+   (task) => task.id !== taskId
+  );
+  setTaskList({ ...taskList });
  };
  return (
   <div className={classNames("", {}, [className])}>
-   <Input />
-   <Button onClick={() => {}}>+</Button>
+   {/* <Input />
+   <Button onClick={() => {}}>+</Button> */}
    <div className={s.taskWall}>
-    {taskWall.map((taskList: TaskListSchema, i) => {
+    {/* {taskWall.map((taskList: TaskListSchema, i) => {
      return (
       <TaskList
        addTask={addTask}
@@ -81,11 +101,13 @@ export const TaskWall = memo((props: TaskWallProps) => {
        key={taskList.id}
       />
      );
-    })}
+    })} */}
     <TaskList
+     changeTaskStatus={changeTaskStatus}
      addTask={addTask}
-     taskList={taskList1}
-     key={taskList1.id}
+     removeTask={removeTask}
+     taskList={taskList}
+     key={taskList.id}
     />
    </div>
   </div>
