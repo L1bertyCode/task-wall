@@ -1,7 +1,22 @@
+.taskList {
+ display: flex;
+ flex-direction: column;
+ gap: 12px;
+}
+.taskItemsList {
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+}
 .isDone {
  opacity: var(--opacity50);
 }
 .header {
  display: flex;
  justify-content: space-between;
+}
+.inputWrapper {
+ display: flex;
+ align-items: center;
+ gap: 12px;
 }

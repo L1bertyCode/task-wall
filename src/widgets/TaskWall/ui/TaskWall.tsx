@@ -62,13 +62,15 @@ export const TaskWall = memo((props: TaskWallProps) => {
   ],
  });
  const addTask = (title: string) => {
-  const newTask: TaskItemSchema = {
-   id: v1(),
-   isDone: false,
-   title: title,
-  };
-  taskList.taskItemsList.push(newTask);
-  setTaskList({ ...taskList });
+  if (title.trim() !== "") {
+   const newTask: TaskItemSchema = {
+    id: v1(),
+    isDone: false,
+    title: title,
+   };
+   taskList.taskItemsList.push(newTask);
+   setTaskList({ ...taskList });
+  }
  };
  const changeTaskStatus = (
   taskId: string,

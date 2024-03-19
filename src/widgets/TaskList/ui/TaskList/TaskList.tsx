@@ -27,6 +27,9 @@ export const TaskList = ({
   "all" | "active" | "completed"
  >("all");
  const [value, setValue] = useState("");
+ const [error, setError] = useState<string | boolean>(
+  false
+ );
  const { title, taskItemsList, date, id } = taskList;
  const dispatch = useAppDispatch();
 
@@ -47,26 +50,29 @@ export const TaskList = ({
    break;
  }
  return (
-  <Card>
+  <Card className={s.taskList}>
    <div className={s.header}>
     <h3>{title}</h3>
     <Button onClick={() => {}}>x</Button>
    </div>
-   <div>
+   <div className={s.inputWrapper}>
     <Input
+     error={error}
      value={value}
      setValue={setValue}
+     setErrorFalse={() => setError(false)}
      onChange={(value: string) => setValue(value)}
      onKeyDown={() => {
-      if (value) {
-       addTask?.(value);
-       setValue("");
-      }
+      addTask?.(value);
+      setValue("");
      }}
     />
     <Button
      onClick={() => {
-      if (value) {
+      if (value.trim() === "") {
+       setError(true);
+      }
+      {
        addTask?.(value);
        setValue("");
       }
@@ -78,7 +84,7 @@ export const TaskList = ({
    {taskItemsList.length === 0 ? (
     <p>Tasks not assigned</p>
    ) : (
-    <ul>
+    <ul className={s.taskItemsList}>
      {taskForTodoList.map((taskItem, i) => {
       return (
        <TaskItem

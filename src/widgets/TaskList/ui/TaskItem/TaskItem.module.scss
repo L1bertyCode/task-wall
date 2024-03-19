@@ -1,0 +1,11 @@
+.taskItem {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+}
+.isDone {
+ opacity: var(--opacity50);
+}
+.checkbox {
+ margin-right: 8px;
+}

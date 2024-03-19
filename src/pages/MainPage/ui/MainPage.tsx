@@ -12,7 +12,7 @@ interface MainPageProps {
 export const MainPage = memo((props: MainPageProps) => {
  const { className } = props;
  return (
-  <Page className={cn("app", "container", className)}>
+  <Page className={cn("app", className)}>
    <TaskWall />
   </Page>
  );

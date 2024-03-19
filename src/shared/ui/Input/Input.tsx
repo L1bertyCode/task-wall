@@ -18,7 +18,7 @@ interface InputProps extends HtmlInputType {
  type?: string;
  label?: string;
  value?: string;
- error?: string;
+ error?: string | boolean;
  setValue?: (value: string) => void;
  onKeyDown?: () => void;
  Btn?: ReactNode;
