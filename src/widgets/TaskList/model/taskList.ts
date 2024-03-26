@@ -3,9 +3,6 @@ export interface TaskItemSchema {
  title: string;
  isDone: boolean;
 }
-export interface TaskListSchema {
- id: string;
- title: string;
- taskItemsList: TaskItemSchema[];
- date?: string;
-}
+export type TaskListSchema = Record<string, TaskItemSchema>;
+
+export type FilterType = "all" | "active" | "completed";

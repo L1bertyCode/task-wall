@@ -1,52 +1,61 @@
 import { Card } from "@/shared/ui/Card/Card";
-import { TaskListSchema } from "../../model/taskList";
+import {
+ TaskItemSchema,
+ FilterType,
+} from "../../model/taskList";
 import s from "./TaskList.module.scss";
 import { Button } from "@/shared/ui/Button/Button";
 import { TaskItem } from "../TaskItem/TaskItem";
 
 import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
-import { taskWallActions } from "@/widgets/TaskWall";
+
 import { useState } from "react";
 import { Input } from "@/shared/ui/Input/Input";
 interface TaskListProps {
- taskList: TaskListSchema;
- addTask?: (title: string) => void;
- changeTaskStatus?: (
-  taskId: string,
-  taskStatus: boolean
+ taskList: TaskItemSchema[];
+ title: string;
+ filter: FilterType;
+ taskListId: string;
+ addTask: (title: string, taskListId: string) => void;
+ changeTaskListFilter: (
+  filter: FilterType,
+  taskListId: string
  ) => void;
- removeTask?: (taskId: string) => void;
+ changeTaskStatus: (
+  taskListId: string,
+  taskItemId: string,
+  isDone: boolean
+ ) => void;
 }
 export const TaskList = ({
  taskList,
- addTask,
+ title,
+ taskListId,
+ filter,
+ changeTaskListFilter,
  changeTaskStatus,
- removeTask,
 }: TaskListProps) => {
- const [filter, setFilter] = useState<
-  "all" | "active" | "completed"
- >("all");
  const [value, setValue] = useState("");
  const [error, setError] = useState<string | boolean>(
   false
  );
- const { title, taskItemsList, date, id } = taskList;
+
  const dispatch = useAppDispatch();
 
- let taskForTodoList = taskItemsList;
+ let taskForTodoList = taskList;
  switch (filter) {
   case "active":
-   taskForTodoList = taskItemsList.filter(
+   taskForTodoList = taskList.filter(
     (task) => task.isDone === false
    );
    break;
   case "completed":
-   taskForTodoList = taskItemsList.filter(
+   taskForTodoList = taskList.filter(
     (task) => task.isDone === true
    );
    break;
   default:
-   taskForTodoList = taskItemsList;
+   taskForTodoList = taskList;
    break;
  }
  return (
@@ -63,7 +72,7 @@ export const TaskList = ({
      setErrorFalse={() => setError(false)}
      onChange={(value: string) => setValue(value)}
      onKeyDown={() => {
-      addTask?.(value);
+      // addTask?.(value);
       setValue("");
      }}
     />
@@ -73,7 +82,7 @@ export const TaskList = ({
        setError(true);
       }
       {
-       addTask?.(value);
+       //  addTask?.(value);
        setValue("");
       }
      }}
@@ -81,16 +90,16 @@ export const TaskList = ({
      +
     </Button>
    </div>
-   {taskItemsList.length === 0 ? (
+   {taskForTodoList?.length === 0 ? (
     <p>Tasks not assigned</p>
    ) : (
     <ul className={s.taskItemsList}>
-     {taskForTodoList.map((taskItem, i) => {
+     {taskList.map((taskItem, i) => {
       return (
        <TaskItem
-        removeTask={removeTask}
+        //  removeTask={removeTask}
         changeTaskStatus={changeTaskStatus}
-        taskList={taskList}
+        taskListId={taskListId}
         key={taskItem.id + taskItem.title}
         taskItem={taskItem}
        />
@@ -98,27 +107,30 @@ export const TaskList = ({
      })}
     </ul>
    )}
-   <div>
+   <div className={s.btns}>
     <Button
      active={filter === "all"}
-     onClick={() => setFilter("all")}
+     onClick={() => changeTaskListFilter("all", taskListId)}
     >
      All
     </Button>
     <Button
      active={filter === "active"}
-     onClick={() => setFilter("active")}
+     onClick={() =>
+      changeTaskListFilter("active", taskListId)
+     }
     >
      Active
     </Button>
     <Button
      active={filter === "completed"}
-     onClick={() => setFilter("completed")}
+     onClick={() =>
+      changeTaskListFilter("completed", taskListId)
+     }
     >
      Completed
     </Button>
    </div>
-   <span>{date}</span>
   </Card>
  );
 };

@@ -12,18 +12,19 @@ import {
 } from "../../model/taskList";
 import { Button } from "@/shared/ui/Button/Button";
 import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
-import { taskWallActions } from "@/widgets/TaskWall";
+// import { taskWallActions } from "@/widgets/TaskWall";
 import { classNames } from "@/shared/lib/classNames/classNames";
 
 interface TaskItemProps {
  className?: string;
  taskItem: TaskItemSchema;
- taskList: TaskListSchema;
+ taskListId: string;
  changeTaskStatus?: (
-  taskId: string,
-  taskStatus: boolean
+  taskListId: string,
+  taskItemId: string,
+  isDone: boolean
  ) => void;
- removeTask?: (taskId: string) => void;
+ removeTask?: (taskId: string, taskListId: string) => void;
 }
 
 export const TaskItem = memo((props: TaskItemProps) => {
@@ -32,6 +33,7 @@ export const TaskItem = memo((props: TaskItemProps) => {
   taskItem,
   changeTaskStatus,
   removeTask,
+  taskListId,
  } = props;
  const { title, isDone, id } = taskItem;
  const dispatch = useAppDispatch();
@@ -39,7 +41,7 @@ export const TaskItem = memo((props: TaskItemProps) => {
   e: ChangeEvent<HTMLInputElement>
  ) => {
   const newStatusValue = e.currentTarget.checked;
-  changeTaskStatus?.(id, newStatusValue);
+  changeTaskStatus?.(taskListId, id, newStatusValue);
  };
  return (
   <li
@@ -53,14 +55,15 @@ export const TaskItem = memo((props: TaskItemProps) => {
     <input
      className={s.checkbox}
      type="checkbox"
-     checked={taskItem.isDone}
+     checked={isDone}
      onChange={changeTaskStatushandler}
     />
-    <span>{taskItem.title}</span>
+    <span>{title}</span>
    </span>
    <Button
     onClick={
-     () => removeTask?.(id)
+     () => {}
+     //  removeTask?.(id)
      //  dispatch(
      //   taskWallActions.removeTask({
      //    numberList: taskList.id,

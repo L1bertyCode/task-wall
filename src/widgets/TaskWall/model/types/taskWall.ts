@@ -1,5 +1,7 @@
-import { TaskListSchema } from "@/widgets/TaskList";
+import { FilterType } from "@/widgets/TaskList/model/taskList";
 
 export interface TaskWallSchema {
- taskWall: TaskListSchema[];
+ id: string;
+ title: string;
+ filter: FilterType;
 }
