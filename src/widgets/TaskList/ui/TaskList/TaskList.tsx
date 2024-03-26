@@ -17,15 +17,17 @@ interface TaskListProps {
  filter: FilterType;
  taskListId: string;
  addTask: (title: string, taskListId: string) => void;
+ removeTask: (taskListId: string, taskId: string) => void;
  changeTaskListFilter: (
-  filter: FilterType,
-  taskListId: string
+  taskListId: string,
+  filter: FilterType
  ) => void;
  changeTaskStatus: (
   taskListId: string,
   taskItemId: string,
   isDone: boolean
  ) => void;
+ removeTaskList: (taskListId: string) => void;
 }
 export const TaskList = ({
  taskList,
@@ -34,6 +36,9 @@ export const TaskList = ({
  filter,
  changeTaskListFilter,
  changeTaskStatus,
+ addTask,
+ removeTask,
+ removeTaskList,
 }: TaskListProps) => {
  const [value, setValue] = useState("");
  const [error, setError] = useState<string | boolean>(
@@ -42,7 +47,7 @@ export const TaskList = ({
 
  const dispatch = useAppDispatch();
 
- let taskForTodoList = taskList;
+ let taskForTodoList;
  switch (filter) {
   case "active":
    taskForTodoList = taskList.filter(
@@ -62,7 +67,13 @@ export const TaskList = ({
   <Card className={s.taskList}>
    <div className={s.header}>
     <h3>{title}</h3>
-    <Button onClick={() => {}}>x</Button>
+    <Button
+     onClick={() => {
+      removeTaskList(taskListId);
+     }}
+    >
+     x
+    </Button>
    </div>
    <div className={s.inputWrapper}>
     <Input
@@ -72,7 +83,7 @@ export const TaskList = ({
      setErrorFalse={() => setError(false)}
      onChange={(value: string) => setValue(value)}
      onKeyDown={() => {
-      // addTask?.(value);
+      addTask?.(taskListId, value);
       setValue("");
      }}
     />
@@ -82,7 +93,7 @@ export const TaskList = ({
        setError(true);
       }
       {
-       //  addTask?.(value);
+       addTask?.(taskListId, value);
        setValue("");
       }
      }}
@@ -94,13 +105,13 @@ export const TaskList = ({
     <p>Tasks not assigned</p>
    ) : (
     <ul className={s.taskItemsList}>
-     {taskList.map((taskItem, i) => {
+     {taskForTodoList.map((taskItem, i) => {
       return (
        <TaskItem
-        //  removeTask={removeTask}
+        removeTask={removeTask}
         changeTaskStatus={changeTaskStatus}
         taskListId={taskListId}
-        key={taskItem.id + taskItem.title}
+        key={taskItem.id}
         taskItem={taskItem}
        />
       );
@@ -110,14 +121,14 @@ export const TaskList = ({
    <div className={s.btns}>
     <Button
      active={filter === "all"}
-     onClick={() => changeTaskListFilter("all", taskListId)}
+     onClick={() => changeTaskListFilter(taskListId, "all")}
     >
      All
     </Button>
     <Button
      active={filter === "active"}
      onClick={() =>
-      changeTaskListFilter("active", taskListId)
+      changeTaskListFilter(taskListId, "active")
      }
     >
      Active
@@ -125,7 +136,7 @@ export const TaskList = ({
     <Button
      active={filter === "completed"}
      onClick={() =>
-      changeTaskListFilter("completed", taskListId)
+      changeTaskListFilter(taskListId, "completed")
      }
     >
      Completed

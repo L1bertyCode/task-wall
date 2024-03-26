@@ -19,12 +19,12 @@ interface TaskItemProps {
  className?: string;
  taskItem: TaskItemSchema;
  taskListId: string;
- changeTaskStatus?: (
+ changeTaskStatus: (
   taskListId: string,
   taskItemId: string,
   isDone: boolean
  ) => void;
- removeTask?: (taskId: string, taskListId: string) => void;
+ removeTask: (taskListId: string, taskId: string) => void;
 }
 
 export const TaskItem = memo((props: TaskItemProps) => {
@@ -41,7 +41,7 @@ export const TaskItem = memo((props: TaskItemProps) => {
   e: ChangeEvent<HTMLInputElement>
  ) => {
   const newStatusValue = e.currentTarget.checked;
-  changeTaskStatus?.(taskListId, id, newStatusValue);
+  changeTaskStatus(taskListId, id, newStatusValue);
  };
  return (
   <li
@@ -60,18 +60,7 @@ export const TaskItem = memo((props: TaskItemProps) => {
     />
     <span>{title}</span>
    </span>
-   <Button
-    onClick={
-     () => {}
-     //  removeTask?.(id)
-     //  dispatch(
-     //   taskWallActions.removeTask({
-     //    numberList: taskList.id,
-     //    numberTask: id,
-     //   })
-     //  )Z
-    }
-   >
+   <Button onClick={() => removeTask(taskListId, id)}>
     x
    </Button>
   </li>

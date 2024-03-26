@@ -35,32 +35,35 @@ export const TaskWall = memo((props: TaskWallProps) => {
  );
  const [taskListData, setTaskListData] = useState({
   [id1]: [
-   { id: v1(), title: "HTML&CSS", isDone: false },
+   { id: v1(), title: "HTML&CSS", isDone: true },
    { id: v1(), title: "JS", isDone: false },
    { id: v1(), title: "ReactJS", isDone: false },
   ],
   [id2]: [
-   { id: v1(), title: "HTML&CSS", isDone: false },
-   { id: v1(), title: "JS", isDone: false },
-   { id: v1(), title: "ReactJS", isDone: false },
+   { id: v1(), title: "1917", isDone: false },
+   { id: v1(), title: "Blood", isDone: false },
+   { id: v1(), title: "Moon", isDone: false },
   ],
  });
- const addTask = (title: string, taskListId: string) => {
+ const addTask = (taskListId: string, title: string) => {
   if (title.trim() !== "") {
    const newTask: TaskItemSchema = {
     id: v1(),
     isDone: false,
     title: title,
    };
-   taskListData[id1].push(newTask);
+   taskListData[taskListId].push(newTask);
    setTaskListData({ ...taskListData });
   }
  };
- const changeTaskListFilter = (
-  filter: FilterType,
-  taskListId: string
+ const removeTask = (
+  taskListId: string,
+  taskId: string
  ) => {
-  setTaskWall([...taskWall]);
+  taskListData[taskListId] = taskListData[
+   taskListId
+  ].filter((task) => task.id !== taskId);
+  setTaskListData({ ...taskListData });
  };
 
  const changeTaskStatus = (
@@ -68,28 +71,55 @@ export const TaskWall = memo((props: TaskWallProps) => {
   taskItemId: string,
   isDone: boolean
  ) => {
-  taskListData[taskListId].map((taskListDataItem) => {
-   if (taskListDataItem.id === taskItemId) {
-    taskListDataItem.isDone === isDone;
-   }
-   taskListDataItem.isDone = taskListDataItem.isDone;
-  });
+  taskListData[taskListId].map((taskItem) =>
+   taskItem.id === taskItemId
+    ? (taskItem.isDone = isDone)
+    : taskItem.isDone
+  );
+  console.log(taskListData[taskListId]);
+
   setTaskListData({ ...taskListData });
+ };
+ const changeTaskListFilter = (
+  taskListId: string,
+  filter: FilterType
+ ) => {
+  taskWall.map((taskList) =>
+   taskList.id === taskListId
+    ? (taskList.filter = filter)
+    : taskList
+  );
+  setTaskWall([...taskWall]);
+ };
+ const removeTaskList = (taskListId: string) => {
+  if (taskListId) {
+   delete taskListData[taskListId];
+   const newTaskWall = taskWall.filter(
+    (taskList) => taskList.id !== taskListId
+   );
+   setTaskWall([...newTaskWall]);
+  }
  };
  return (
   <div className={classNames(s.taskWall, {}, [className])}>
-   {taskWall.map((taskWallItem) => (
-    <TaskList
-     key={taskWallItem.id}
-     taskListId={taskWallItem.id}
-     title={taskWallItem.title}
-     filter={taskWallItem.filter}
-     taskList={taskListData[taskWallItem.id]}
-     addTask={addTask}
-     changeTaskListFilter={changeTaskListFilter}
-     changeTaskStatus={changeTaskStatus}
-    />
-   ))}
+   {taskWall.length ? (
+    taskWall.map((taskWallItem) => (
+     <TaskList
+      key={taskWallItem.id}
+      taskListId={taskWallItem.id}
+      title={taskWallItem.title}
+      filter={taskWallItem.filter}
+      taskList={taskListData[taskWallItem.id]}
+      addTask={addTask}
+      removeTask={removeTask}
+      changeTaskListFilter={changeTaskListFilter}
+      changeTaskStatus={changeTaskStatus}
+      removeTaskList={removeTaskList}
+     />
+    ))
+   ) : (
+    <div>Add new task list</div>
+   )}
   </div>
  );
 });
