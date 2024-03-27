@@ -11,6 +11,7 @@ import { useAppDispatch } from "@/shared/lib/hooks/useAppDispatch";
 
 import { useState } from "react";
 import { Input } from "@/shared/ui/Input/Input";
+import { TaskListFilter } from "@/widgets/TaskListFilter";
 interface TaskListProps {
  taskList: TaskItemSchema[];
  title: string;
@@ -25,7 +26,7 @@ interface TaskListProps {
  changeTaskStatus: (
   taskListId: string,
   taskItemId: string,
-  isDone: boolean
+  newStatus: boolean
  ) => void;
  removeTaskList: (taskListId: string) => void;
 }
@@ -118,30 +119,11 @@ export const TaskList = ({
      })}
     </ul>
    )}
-   <div className={s.btns}>
-    <Button
-     active={filter === "all"}
-     onClick={() => changeTaskListFilter(taskListId, "all")}
-    >
-     All
-    </Button>
-    <Button
-     active={filter === "active"}
-     onClick={() =>
-      changeTaskListFilter(taskListId, "active")
-     }
-    >
-     Active
-    </Button>
-    <Button
-     active={filter === "completed"}
-     onClick={() =>
-      changeTaskListFilter(taskListId, "completed")
-     }
-    >
-     Completed
-    </Button>
-   </div>
+   <TaskListFilter
+    changeTaskListFilter={changeTaskListFilter}
+    filter={filter}
+    taskListId={taskListId}
+   />
   </Card>
  );
 };

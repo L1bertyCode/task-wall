@@ -22,7 +22,7 @@ interface TaskItemProps {
  changeTaskStatus: (
   taskListId: string,
   taskItemId: string,
-  isDone: boolean
+  newStatus: boolean
  ) => void;
  removeTask: (taskListId: string, taskId: string) => void;
 }

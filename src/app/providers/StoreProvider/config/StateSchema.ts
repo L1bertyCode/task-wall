@@ -1,6 +1,6 @@
 import { AddTaskItemSchema } from "@/features/addTaskItem";
-import { TaskWallSchema } from "@/widgets/TaskWall";
+import { TaskListWallSchema } from "@/widgets/TaskWall";
 export interface StateSchema {
  addTaskItem: AddTaskItemSchema;
- taskWall: TaskWallSchema;
+ taskWall: TaskListWallSchema;
 }

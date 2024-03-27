@@ -1,39 +1,44 @@
 import { memo, useState } from "react";
 
 import { v1 } from "uuid";
-import s from "./TaskWall.module.scss";
+import s from "./taskWall.module.scss";
 import { classNames } from "@/shared/lib/classNames/classNames";
 
-import { TaskWallSchema } from "../model/types/taskWall";
+import {
+ TaskListDataSchema,
+ TaskListWallSchema,
+} from "../model/types/taskWall";
 import { TaskList } from "@/widgets/TaskList";
 import {
  FilterType,
  TaskItemSchema,
 } from "@/widgets/TaskList/model/taskList";
 
-interface TaskWallProps {
+interface TaskListWallProps {
  className?: string;
 }
 
-export const TaskWall = memo((props: TaskWallProps) => {
+export const TaskWall = memo((props: TaskListWallProps) => {
  const { className } = props;
  const id1 = v1();
  const id2 = v1();
- const [taskWall, setTaskWall] = useState<TaskWallSchema[]>(
-  [
-   {
-    id: id1,
-    title: "Want to learn",
-    filter: "all",
-   },
-   {
-    id: id2,
-    title: "Want to read",
-    filter: "all",
-   },
-  ]
- );
- const [taskListData, setTaskListData] = useState({
+ const [taskListWall, setTaskListWall] = useState<
+  TaskListWallSchema[]
+ >([
+  {
+   id: id1,
+   title: "Want to learn",
+   filter: "all",
+  },
+  {
+   id: id2,
+   title: "Want to read",
+   filter: "all",
+  },
+ ]);
+ const [taskListData, setTaskListData] = useState<
+  Record<string, TaskListDataSchema[]>
+ >({
   [id1]: [
    { id: v1(), title: "HTML&CSS", isDone: true },
    { id: v1(), title: "JS", isDone: false },
@@ -60,56 +65,57 @@ export const TaskWall = memo((props: TaskWallProps) => {
   taskListId: string,
   taskId: string
  ) => {
-  taskListData[taskListId] = taskListData[
-   taskListId
-  ].filter((task) => task.id !== taskId);
-  setTaskListData({ ...taskListData });
+  const newTaskListData = taskListData[taskListId].filter(
+   (t) => t.id !== taskId
+  );
+  taskListData[taskListId] = newTaskListData;
+  setTaskListData({ ...taskListData, newTaskListData });
  };
 
  const changeTaskStatus = (
   taskListId: string,
   taskItemId: string,
-  isDone: boolean
+  newStatus: boolean
  ) => {
-  taskListData[taskListId].map((taskItem) =>
-   taskItem.id === taskItemId
-    ? (taskItem.isDone = isDone)
-    : taskItem.isDone
+  const newTaskListData = taskListData[taskListId].map(
+   (taskItem) =>
+    taskItem.id === taskItemId
+     ? { ...taskItem, isDone: newStatus }
+     : taskItem
   );
-  console.log(taskListData[taskListId]);
-
+  taskListData[taskListId] = newTaskListData;
   setTaskListData({ ...taskListData });
  };
  const changeTaskListFilter = (
   taskListId: string,
   filter: FilterType
  ) => {
-  taskWall.map((taskList) =>
+  taskListWall.map((taskList) =>
    taskList.id === taskListId
     ? (taskList.filter = filter)
     : taskList
   );
-  setTaskWall([...taskWall]);
+  setTaskListWall([...taskListWall]);
  };
  const removeTaskList = (taskListId: string) => {
   if (taskListId) {
    delete taskListData[taskListId];
-   const newTaskWall = taskWall.filter(
+   const newTaskListWall = taskListWall.filter(
     (taskList) => taskList.id !== taskListId
    );
-   setTaskWall([...newTaskWall]);
+   setTaskListWall([...newTaskListWall]);
   }
  };
  return (
   <div className={classNames(s.taskWall, {}, [className])}>
-   {taskWall.length ? (
-    taskWall.map((taskWallItem) => (
+   {taskListWall.length ? (
+    taskListWall.map((taskListWallItem) => (
      <TaskList
-      key={taskWallItem.id}
-      taskListId={taskWallItem.id}
-      title={taskWallItem.title}
-      filter={taskWallItem.filter}
-      taskList={taskListData[taskWallItem.id]}
+      key={taskListWallItem.id}
+      taskListId={taskListWallItem.id}
+      title={taskListWallItem.title}
+      filter={taskListWallItem.filter}
+      taskList={taskListData[taskListWallItem.id]}
       addTask={addTask}
       removeTask={removeTask}
       changeTaskListFilter={changeTaskListFilter}
