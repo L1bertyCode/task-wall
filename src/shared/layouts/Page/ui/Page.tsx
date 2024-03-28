@@ -10,6 +10,8 @@ interface PageProps {
 export const Page = (props: PageProps) => {
  const { className, children } = props;
  return (
-  <div className={cn(s.page, [className])}>{children}</div>
+  <div className={cn(s.page, [className])}>
+   <div className={s.content}>{children}</div>
+  </div>
  );
 };

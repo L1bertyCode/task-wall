@@ -1,0 +1,9 @@
+.page {
+ width: 100%;
+ height: calc(100vh - var(--navbar-height));
+}
+.content {
+ margin: 0 auto;
+ padding: 20px;
+ max-width: 1600px;
+}

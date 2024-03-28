@@ -5,27 +5,29 @@ import { Button } from "@/shared/ui/Button/Button";
 import { Theme } from "@/app/App";
 
 import Typewriter from "@/shared/assets/icons/tw.svg";
-import { Icon } from "@/shared/ui/Icon/Icon"; 
+import { Icon } from "@/shared/ui/Icon/Icon";
 
 interface HeaderProps {
  className?: string;
- theme: Theme;
- chnageTheme: () => void;
+ theme?: Theme;
+ chnageTheme?: () => void;
 }
 
 export const Header = memo((props: HeaderProps) => {
  const { className, chnageTheme } = props;
  return (
-  <div className={cn(s.header, {}, className)}>
-   <Icon
-    width="56px"
-    height="56px "
-    colorType="inverted"
-    Svg={Typewriter}
-   />
-   <Button colorType="inverted" onClick={chnageTheme}>
-    change theme
-   </Button>
-  </div>
+  <header className={cn(s.header, {}, className)}>
+   <nav>
+    <Icon
+     width="56px"
+     height="56px "
+     colorType="inverted"
+     Svg={Typewriter}
+    />
+    <Button colorType="inverted" onClick={chnageTheme}>
+     change theme
+    </Button>
+   </nav>
+  </header>
  );
 });
